@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChallengeSND.Business", "Ch
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChallengeSND.API", "ChallengeSND.API\ChallengeSND.API.csproj", "{866E61F1-4706-4572-9EC1-41CDD9622FA1}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChallengeSND.Web", "ChallengeSND.Web\ChallengeSND.Web.csproj", "{3CC777CF-5A3C-4685-83A0-4DB718F73D5A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{866E61F1-4706-4572-9EC1-41CDD9622FA1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{866E61F1-4706-4572-9EC1-41CDD9622FA1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{866E61F1-4706-4572-9EC1-41CDD9622FA1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3CC777CF-5A3C-4685-83A0-4DB718F73D5A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3CC777CF-5A3C-4685-83A0-4DB718F73D5A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3CC777CF-5A3C-4685-83A0-4DB718F73D5A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3CC777CF-5A3C-4685-83A0-4DB718F73D5A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

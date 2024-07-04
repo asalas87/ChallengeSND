@@ -1,0 +1,6 @@
+@ChallengeSND.API_HostAddress = http://localhost:5033
+
+GET {{ChallengeSND.API_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

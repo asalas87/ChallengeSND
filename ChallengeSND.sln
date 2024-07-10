@@ -3,13 +3,15 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.9.34616.47
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChallengeSND.Data", "ChallengeSND.Data\ChallengeSND.Data.csproj", "{A749683A-CE9E-4DE9-ABD4-D22AE407A11D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ChallengeSND.Data", "ChallengeSND.Data\ChallengeSND.Data.csproj", "{A749683A-CE9E-4DE9-ABD4-D22AE407A11D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChallengeSND.Business", "ChallengeSND.Business\ChallengeSND.Business.csproj", "{F18CBE07-C966-4610-8AB6-3A9363001795}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ChallengeSND.Business", "ChallengeSND.Business\ChallengeSND.Business.csproj", "{F18CBE07-C966-4610-8AB6-3A9363001795}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChallengeSND.API", "ChallengeSND.API\ChallengeSND.API.csproj", "{866E61F1-4706-4572-9EC1-41CDD9622FA1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ChallengeSND.API", "ChallengeSND.API\ChallengeSND.API.csproj", "{866E61F1-4706-4572-9EC1-41CDD9622FA1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChallengeSND.Tests", "ChallengeSND.Tests\ChallengeSND.Tests.csproj", "{FBFBAADF-4652-4EDB-BE60-CF3C6A5BFEDA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ChallengeSND.Tests", "ChallengeSND.Tests\ChallengeSND.Tests.csproj", "{FBFBAADF-4652-4EDB-BE60-CF3C6A5BFEDA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChallengeSND.Web2", "ChallengeSND.Web2\ChallengeSND.Web2.csproj", "{589219D4-3F59-415A-BF59-897DB9A4371D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +35,10 @@ Global
 		{FBFBAADF-4652-4EDB-BE60-CF3C6A5BFEDA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FBFBAADF-4652-4EDB-BE60-CF3C6A5BFEDA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FBFBAADF-4652-4EDB-BE60-CF3C6A5BFEDA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{589219D4-3F59-415A-BF59-897DB9A4371D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{589219D4-3F59-415A-BF59-897DB9A4371D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{589219D4-3F59-415A-BF59-897DB9A4371D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{589219D4-3F59-415A-BF59-897DB9A4371D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

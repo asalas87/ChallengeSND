@@ -1,20 +1,27 @@
-﻿using ChallengeSND.Data.Models;
-using System;
+﻿using ChallengeSND.data.Models;
+using ChallengeSND.data.Repositories;
+using ChallengeSND.Data.Models;
+using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace ChallengeSND.Data.Repositories
 {
-    public class MedicoRepository : Repository<Medico>
+    public class MedicoRepository : Repository<Medico>, IMedicoRepository
     {
-        public MedicoRepository(DataContext context) : base(context) { }
+        private readonly AppDbContext _context;
 
-        public IEnumerable<Medico> GetMedicosByEspecialidad(string especialidad)
+        public MedicoRepository(AppDbContext context) : base(context)
         {
-            return _context.Medicos.Where(m => m.Especialidad == especialidad).ToList();
+            _context = context;
+        }
+
+        public async Task<IEnumerable<Medico>> GetMedicosByEspecialidadAsync(string especialidad)
+        {
+            return await _context.Medicos
+                .Where(m => m.Especialidad == especialidad)
+                .ToListAsync();
         }
     }
-
 }

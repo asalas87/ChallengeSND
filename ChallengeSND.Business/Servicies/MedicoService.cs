@@ -1,51 +1,81 @@
-﻿using ChallengeSND.Data.Models;
+﻿using AutoMapper;
+using ChallengeSND.Business.DTOS;
+using ChallengeSND.Business.Servicies.Interfaces;
+using ChallengeSND.Data.Models;
 using ChallengeSND.Data.Repositories;
-using System;
+using ChallengeSND.Data.Repositories.Interfaces;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace ChallengeSND.Business.Servicies
 {
     public class MedicoService : IMedicoService
     {
-        private readonly IRepository<Medico> _medicoRepository;
+        private readonly IMedicoRepository _medicoRepository;
+        private readonly IMapper _mapper;
 
-        public MedicoService(IRepository<Medico> medicoRepository)
+        public MedicoService(IMedicoRepository medicoRepository, IMapper mapper)
         {
             _medicoRepository = medicoRepository;
+            _mapper = mapper;
         }
 
-        public async Task<IEnumerable<Medico>> GetMedicosAsync()
+        public async Task<IEnumerable<MedicoDto>> GetAllMedicos()
         {
-            return await _medicoRepository.GetAllAsync();
+            var medicos = await _medicoRepository.GetAllAsync();
+            return _mapper.Map<IEnumerable<MedicoDto>>(medicos);
         }
 
-        public async Task<Medico> GetMedicoByIdAsync(int id)
+        public async Task<MedicoDto> GetMedicoById(int id)
         {
-            return await _medicoRepository.GetByIdAsync(id);
+            var medico = await _medicoRepository.GetByIdAsync(id);
+            return _mapper.Map<MedicoDto>(medico);
         }
 
-        public async Task AddMedicoAsync(Medico medico)
+        public async Task<MedicoDto> CreateMedico(MedicoDto medicoDto)
         {
+            // Convierte MedicoDto a Medico
+            var medico = new Medico
+            {
+                Nombre = medicoDto.Nombre,
+                Apellido = medicoDto.Apellido,
+                FechaNacimiento = medicoDto.FechaNacimiento,
+                Especialidad = medicoDto.Especialidad,
+                ConTurnosDisponibles = medicoDto.ConTurnosDisponibles
+            };
+
+            
             await _medicoRepository.AddAsync(medico);
+            await _medicoRepository.SaveChangesAsync();
+
+            // Convierte el Medico guardado de vuelta a MedicoDto
+            var medicoDtoResult = new MedicoDto
+            {
+                Id = medico.Id,  
+                Nombre = medico.Nombre,
+                Apellido = medico.Apellido,
+                FechaNacimiento = (DateTime)medico.FechaNacimiento,
+                Especialidad = medico.Especialidad,
+                ConTurnosDisponibles = medico.ConTurnosDisponibles
+            };
+
+            return medicoDtoResult;
         }
 
-        public async Task UpdateMedicoAsync(Medico medico)
+        public async Task UpdateMedico(MedicoDto medicoDto)
         {
+            var medico = _mapper.Map<Medico>(medicoDto);
             await _medicoRepository.UpdateAsync(medico);
         }
 
-        public async Task DeleteMedicoAsync(int id)
+        public async Task DeleteMedico(int id)
         {
-            await _medicoRepository.DeleteAsync(id);
+            var medico = await _medicoRepository.GetByIdAsync(id);
+            if (medico != null)
+            {
+                await _medicoRepository.DeleteAsync(id);
+            }
         }
 
-        public IEnumerable<Medico> GetMedicosByEspecialidad(string especialidad)
-        {
-            return _medicoRepository.GetMedicosByEspecialidad(especialidad);
-        }
     }
-
 }

@@ -6,11 +6,15 @@ using System.Threading.Tasks;
 
 namespace ChallengeSND.Data.Models
 {
-    public class Medico : Persona
-    {
-        public string Especialidad { get; set; }
-        public List<Paciente> Pacientes { get; set; }
-    }
-
    
+        public class Medico : Persona
+        {
+            public string Especialidad { get; set; }
+            public bool ConTurnosDisponibles { get; set; }
+            public List<PacienteMedico> PacientesMedicos { get; set; } = new List<PacienteMedico>();
+        }
+    
+
+
+
 }

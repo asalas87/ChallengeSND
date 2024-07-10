@@ -8,9 +8,8 @@ namespace ChallengeSND.Data.Models
 {
     public class Paciente : Persona
     {
-        public string ClasificacionEdad { get; set; } 
-        public int MedicoId { get; set; }
-        public Medico Medico { get; set; }
+        public string ?ClasificacionEdad { get; set; }
+        public List<PacienteMedico>? PacientesMedicos { get; set; } = new List<PacienteMedico>();
     }
 
 }

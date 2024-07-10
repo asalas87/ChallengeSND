@@ -1,18 +1,14 @@
 using ChallengeSND.Business.Servicies;
 using ChallengeSND.Business.Servicies.Interfaces;
-using ChallengeSND.Data;
 using ChallengeSND.Data.Repositories;
 using ChallengeSND.Data.Repositories.Interfaces;
-using ChallengeSND.Data.Models;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using System.Text;
-using ChallengeSND.Business.Servicies;
 using ChallengeSND.data.Models;
-using Microsoft.AspNetCore.Authentication;
 using ChallengeSND.Business.MappingProfiles;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -38,7 +34,7 @@ builder.Services.AddScoped<IMedicoRepository, MedicoRepository>();
 builder.Services.AddScoped<IPacienteRepository, PacienteRepository>();
 builder.Services.AddScoped<IMedicoService, MedicoService>();
 builder.Services.AddScoped<IPacienteService, PacienteService>();
-builder.Services.AddScoped<ChallengeSND.Business.Servicies.AuthenticationService>();  // Agrega esta línea en la sección de configuración de servicios
+builder.Services.AddScoped<ChallengeSND.Business.Servicies.AuthenticationService>();  
 #endregion
 
 // Configuración de autenticación JWT
@@ -56,7 +52,7 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             ValidIssuer = tokenAppSetting.GetSection("Issuer").Value,
             ValidAudience = tokenAppSetting.GetSection("Audience").Value,
             IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(tokenAppSetting.GetSection("Key").Value)),
-            RoleClaimType = "role"  // Define el tipo de claim para roles
+            RoleClaimType = "role" 
         };
     });
 #endregion

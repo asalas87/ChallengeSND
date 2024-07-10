@@ -19,9 +19,8 @@ namespace ChallengeSND.Controllers
         [HttpPost("login")]
         public IActionResult Login([FromBody] Business.DTOS.LoginRequest request)
         {
-            
-            var user = new User { UserName = request.UserName="Admin", Role = "Admin" }; 
-          
+
+            var user = new User { UserName = request.UserName, Role = "Admin" };
             var token = _authenticationService.GenerateToken(user);
 
          

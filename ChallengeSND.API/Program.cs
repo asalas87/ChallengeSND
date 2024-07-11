@@ -8,10 +8,17 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using System.Text;
-using ChallengeSND.data.Models;
+using ChallengeSND.Data.Models;
 using ChallengeSND.Business.MappingProfiles;
+using ChallengeSND.data.Models;
 
 var builder = WebApplication.CreateBuilder(args);
+
+// Configuración de Logging
+#region Logging Configuration
+builder.Logging.ClearProviders();
+builder.Logging.AddConsole();
+#endregion
 
 // Configuración de Entity Framework
 #region Entity Framework Configuration
@@ -22,10 +29,8 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 // Configuración de AutoMapper
 #region AutoMapper Configuration
 builder.Services.AddAutoMapper(typeof(Program).Assembly);
-
 builder.Services.AddAutoMapper(typeof(MedicoProfile),
                                typeof(PacienteProfile));
-
 #endregion
 
 // Configuración de servicios y repositorios
@@ -34,7 +39,7 @@ builder.Services.AddScoped<IMedicoRepository, MedicoRepository>();
 builder.Services.AddScoped<IPacienteRepository, PacienteRepository>();
 builder.Services.AddScoped<IMedicoService, MedicoService>();
 builder.Services.AddScoped<IPacienteService, PacienteService>();
-builder.Services.AddScoped<ChallengeSND.Business.Servicies.AuthenticationService>();  
+builder.Services.AddScoped<ChallengeSND.Business.Servicies.AuthenticationService>();  // Asegúrate de que este servicio está definido en tu proyecto
 #endregion
 
 // Configuración de autenticación JWT
@@ -52,7 +57,7 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             ValidIssuer = tokenAppSetting.GetSection("Issuer").Value,
             ValidAudience = tokenAppSetting.GetSection("Audience").Value,
             IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(tokenAppSetting.GetSection("Key").Value)),
-            RoleClaimType = "role" 
+            RoleClaimType = "role"
         };
     });
 #endregion
@@ -137,7 +142,7 @@ var app = builder.Build();
 
 // Configuración del pipeline HTTP
 #region HTTP Pipeline Configuration
-if (app.Environment.IsDevelopment() || app.Environment.IsProduction())
+if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "ChallengeSND API v1"));

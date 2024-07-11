@@ -1,0 +1,36 @@
+﻿@page "/editpaciente/{id:int}"
+@using ChallengeSND.Business.DTOS
+@using ChallengeSND.Web2.Services
+@using MudBlazor
+@using System.Net.Http.Json
+@inject HttpClient Http
+@inject NavigationManager Navigation
+@code {
+    [Parameter] public int Id { get; set; }
+    private PacienteDto paciente = new();
+    private bool isLoading = true;
+
+    protected override async Task OnInitializedAsync()
+    {
+        paciente = await Http.GetFromJsonAsync<PacienteDto>($"api/pacientes/{Id}");
+        isLoading = false;
+    }
+
+    private async Task Save()
+    {
+        await Http.PutAsJsonAsync($"api/pacientes/{Id}", paciente);
+        Navigation.NavigateTo("/index");
+    }
+}
+
+@if (isLoading)
+{
+    <MudText Typo="Typo.h6">Cargando...</MudText>
+}
+else
+{
+    <MudPaper>
+        <MudTextField Label="Nombre" @bind-Value="paciente.Nombre" />
+        <MudButton OnClick="Save">Guardar</MudButton>
+    </MudPaper>
+}

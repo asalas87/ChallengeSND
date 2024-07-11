@@ -1,0 +1,58 @@
+﻿@page "/index"
+@using ChallengeSND.Business.DTOS
+@using MudBlazor
+@using System.Net.Http.Json
+@inject HttpClient Http
+
+<MudTabs>
+    <MudTabPanel Text="Médicos">
+        <MudTable Items="medicos" Hover="true">
+            <ToolBarContent>
+                <MudText Typo="Typo.h6">Médicos</MudText>
+            </ToolBarContent>
+            <HeaderContent>
+                <MudTh>Nombre</MudTh>
+                <MudTh>Apellido</MudTh>
+                <MudTh>Especialidad</MudTh>
+                <MudTh>Acciones</MudTh>
+            </HeaderContent>
+            <RowTemplate Context="medico">
+                <MudTd DataLabel="Nombre">@medico.Nombre</MudTd>
+                <MudTd DataLabel="Apellido">@medico.Apellido</MudTd>
+                <MudTd DataLabel="Especialidad">@medico.Especialidad</MudTd>
+                <MudTd DataLabel="Acciones">
+                    <MudButton Variant="Variant.Filled" Color="Color.Primary" Href="@($"editmedico/{medico.Id}")">Editar</MudButton>
+                </MudTd>
+            </RowTemplate>
+        </MudTable>
+    </MudTabPanel>
+    <MudTabPanel Text="Pacientes">
+        <MudTable Items="pacientes" Hover="true">
+            <ToolBarContent>
+                <MudText Typo="Typo.h6">Pacientes</MudText>
+            </ToolBarContent>
+            <HeaderContent>
+                <MudTh>Nombre</MudTh>
+                <MudTh>Apellido</MudTh>
+                <MudTh>Acciones</MudTh>
+            </HeaderContent>
+            <RowTemplate Context="paciente">
+                <MudTd DataLabel="Nombre">@paciente.Nombre</MudTd>
+                 <MudTd DataLabel="Acciones">
+                    <MudButton Variant="Variant.Filled" Color="Color.Primary" Href="@($"editpaciente/{paciente.Id}")">Editar</MudButton>
+                </MudTd>
+            </RowTemplate>
+        </MudTable>
+    </MudTabPanel>
+</MudTabs>
+
+@code {
+    private List<MedicoDto> medicos = new();
+    private List<PacienteDto> pacientes = new();
+
+    protected override async Task OnInitializedAsync()
+    {
+        medicos = await Http.GetFromJsonAsync<List<MedicoDto>>("api/medico");
+        pacientes = await Http.GetFromJsonAsync<List<PacienteDto>>("api/paciente");
+    }
+}

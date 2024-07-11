@@ -11,7 +11,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ChallengeSND.API", "Challen
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ChallengeSND.Tests", "ChallengeSND.Tests\ChallengeSND.Tests.csproj", "{FBFBAADF-4652-4EDB-BE60-CF3C6A5BFEDA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChallengeSND.Web2", "ChallengeSND.Web2\ChallengeSND.Web2.csproj", "{589219D4-3F59-415A-BF59-897DB9A4371D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ChallengeSND.Web2", "ChallengeSND.Web2\ChallengeSND.Web2.csproj", "{589219D4-3F59-415A-BF59-897DB9A4371D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

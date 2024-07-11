@@ -1,0 +1,49 @@
+﻿@page "/login"
+@using ChallengeSND.Business.DTOS
+@using ChallengeSND.Web2.Services
+@using Microsoft.AspNetCore.Components.Forms
+@using System.Net.Http.Json
+@inject HttpClient Http
+@inject NavigationManager Navigation
+@inject JwtAuthenticationStateProvider AuthProvider
+
+<h3>Login</h3>
+
+<EditForm Model="@loginRequest" OnValidSubmit="HandleLogin">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+
+    <div class="form-group">
+        <label for="username">Username</label>
+        <InputText id="username" @bind-Value="loginRequest.UserName" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label for="password">Password</label>
+        <InputText id="password" @bind-Value="loginRequest.Role" type="password" class="form-control" />
+    </div>
+    <button type="submit" class="btn btn-primary">Login</button>
+</EditForm>
+
+@code {
+    private LoginRequest loginRequest = new LoginRequest();
+
+    private async Task HandleLogin()
+    {
+        try
+        {
+            var response = await Http.PostAsJsonAsync("api/auth/login", loginRequest);
+            response.EnsureSuccessStatusCode();
+            var result = await response.Content.ReadFromJsonAsync<LoginResponse>();
+            if (result != null)
+            {
+                await AuthProvider.MarkUserAsAuthenticated(result.Token);
+                Navigation.NavigateTo("/");
+            }
+        }
+        catch (Exception ex)
+        {
+            // Manejo de errores simple
+            Console.WriteLine($"Login failed: {ex.Message}");
+        }
+    }
+}

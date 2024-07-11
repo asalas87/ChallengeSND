@@ -1,0 +1,56 @@
+﻿@page "/edit-medico/{Id:int}"
+@using ChallengeSND.Business.DTOS
+@using System.Net.Http.Json
+@using Microsoft.AspNetCore.Components.Forms
+@inject HttpClient Http
+@inject NavigationManager Navigation
+
+<h3>Editar Médico</h3>
+
+<EditForm Model="@medicoDto" OnValidSubmit="HandleSubmit">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+
+    <div class="form-group">
+        <label for="nombre">Nombre</label>
+        <InputText id="nombre" @bind-Value="medicoDto.Nombre" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label for="apellido">Apellido</label>
+        <InputText id="apellido" @bind-Value="medicoDto.Apellido" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label for="especialidad">Especialidad</label>
+        <InputText id="especialidad" @bind-Value="medicoDto.Especialidad" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label for="fechaNacimiento">Fecha de Nacimiento</label>
+        <InputDate id="fechaNacimiento" @bind-Value="medicoDto.FechaNacimiento" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label>
+            <InputCheckbox id="conTurnosDisponibles" @bind-Checked="medicoDto.ConTurnosDisponibles" />
+            Turnos Disponibles
+        </label>
+    </div>
+    <button type="submit" class="btn btn-primary">Guardar</button>
+    <button type="button" class="btn btn-secondary" @onclick="Cancel">Cancelar</button>
+</EditForm>
+
+@code {
+    [Parameter] public int Id { get; set; }
+    private MedicoDto medicoDto = new();
+
+    protected override async Task OnInitializedAsync()
+    {
+        medicoDto = await Http.GetFromJsonAsync<MedicoDto>($"api/medico/{Id}");
+    }
+
+    private async Task HandleSubmit()
+    {
+        await Http.PutAsJsonAsync($"api/medico/{Id}", medicoDto);
+        Navigation.NavigateTo("/");
+    }
+
+    private void Cancel() => Navigation.NavigateTo("/");
+}

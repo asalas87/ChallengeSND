@@ -1,16 +1,16 @@
-﻿@inherits LayoutComponentBase
-<div class="page">
-    <div class="sidebar">
-        <NavMenu />
-    </div>
+﻿@using MudBlazor
+@inherits LayoutComponentBase
 
-    <main>
-        <div class="top-row px-4">
-            <a href="https://learn.microsoft.com/aspnet/core/" target="_blank">About</a>
-        </div>
-
-        <article class="content px-4">
-            @Body
-        </article>
-    </main>
-</div>
+<MudLayout>
+    <MudDrawer Open="true" Variant="DrawerVariant.Persistent">
+        <MudNavMenu>
+            <MudNavLink Href="/login" Icon="@Icons.Material.Filled.Login">Login</MudNavLink>
+            <MudNavLink Href="/" Icon="@Icons.Material.Filled.Home">Médicos</MudNavLink>
+            <MudNavLink Href="/edit-medico/0" Icon="@Icons.Material.Filled.Edit">Editar Médico</MudNavLink>
+            <MudNavLink Href="/edit-paciente/0" Icon="@Icons.Material.Filled.Edit">Editar Paciente</MudNavLink>
+        </MudNavMenu>
+    </MudDrawer>
+    <MudMainContent>
+        @Body
+    </MudMainContent>
+</MudLayout>

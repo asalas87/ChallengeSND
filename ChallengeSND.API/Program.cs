@@ -39,7 +39,9 @@ builder.Services.AddScoped<IMedicoRepository, MedicoRepository>();
 builder.Services.AddScoped<IPacienteRepository, PacienteRepository>();
 builder.Services.AddScoped<IMedicoService, MedicoService>();
 builder.Services.AddScoped<IPacienteService, PacienteService>();
-builder.Services.AddScoped<ChallengeSND.Business.Servicies.AuthenticationService>();  // Asegúrate de que este servicio está definido en tu proyecto
+builder.Services.AddScoped<ChallengeSND.Business.Servicies.AuthenticationService>();
+builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri("https://localhost:7120") });
+
 #endregion
 
 // Configuración de autenticación JWT
@@ -80,11 +82,11 @@ builder.Services.Configure<ApiBehaviorOptions>(options => options.SuppressModelS
 #region CORS Configuration
 builder.Services.AddCors(options =>
 {
-    options.AddPolicy("CorsPolicy", policy =>
+    options.AddDefaultPolicy(builder =>
     {
-        policy.AllowAnyOrigin()
-              .AllowAnyHeader()
-              .AllowAnyMethod();
+        builder.WithOrigins("https://localhost:7039")  
+               .AllowAnyHeader()
+               .AllowAnyMethod();
     });
 });
 #endregion

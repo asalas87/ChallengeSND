@@ -14,27 +14,16 @@ using ChallengeSND.data.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Configuración de Logging
-#region Logging Configuration
 builder.Logging.ClearProviders();
 builder.Logging.AddConsole();
-#endregion
 
-// Configuración de Entity Framework
-#region Entity Framework Configuration
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
-#endregion
 
-// Configuración de AutoMapper
-#region AutoMapper Configuration
 builder.Services.AddAutoMapper(typeof(Program).Assembly);
 builder.Services.AddAutoMapper(typeof(MedicoProfile),
                                typeof(PacienteProfile));
-#endregion
 
-// Configuración de servicios y repositorios
-#region Repositories and Services Configuration
 builder.Services.AddScoped<IMedicoRepository, MedicoRepository>();
 builder.Services.AddScoped<IPacienteRepository, PacienteRepository>();
 builder.Services.AddScoped<IMedicoService, MedicoService>();
@@ -42,10 +31,6 @@ builder.Services.AddScoped<IPacienteService, PacienteService>();
 builder.Services.AddScoped<ChallengeSND.Business.Servicies.AuthenticationService>();
 builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri("https://localhost:7120") });
 
-#endregion
-
-// Configuración de autenticación JWT
-#region JWT Configuration
 var tokenAppSetting = builder.Configuration.GetSection("Jwt");
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(cfg =>
@@ -62,37 +47,32 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             RoleClaimType = "role"
         };
     });
-#endregion
 
-// Configuración de autorización
-#region Authorization Configuration
 builder.Services.AddAuthorization(options =>
 {
     options.AddPolicy("AdminPolicy", policy =>
-        policy.RequireRole("Admin"));  // Solo usuarios con el rol "Admin" pueden acceder a las rutas protegidas por esta política
+        policy.RequireRole("Admin"));
 });
-#endregion
 
-// Configuración de ApiBehaviorOptions
-#region ApiBehaviorOptions Configuration
 builder.Services.Configure<ApiBehaviorOptions>(options => options.SuppressModelStateInvalidFilter = true);
-#endregion
 
-// Configuración de CORS
-#region CORS Configuration
+var configuration = builder.Configuration;
+var urls = configuration["urls"]?.Split(";") ?? new string[] { "http://localhost:5000" };
+var localhostUrl = urls.FirstOrDefault(u => u.Contains("localhost"));
+var port = new Uri(localhostUrl).Port;
+
+var corsAllowedOrigin = $"https://localhost:{port}";
+
 builder.Services.AddCors(options =>
 {
     options.AddDefaultPolicy(builder =>
     {
-        builder.WithOrigins("https://localhost:7039")  
+        builder.WithOrigins(corsAllowedOrigin)
                .AllowAnyHeader()
                .AllowAnyMethod();
     });
 });
-#endregion
 
-// Configuración de Swagger
-#region Swagger Configuration
 builder.Services.AddSwaggerGen(c =>
 {
     c.SwaggerDoc("v1", new OpenApiInfo
@@ -133,17 +113,11 @@ builder.Services.AddSwaggerGen(c =>
         }
     });
 });
-#endregion
 
-// Agregar servicios de controlador
-#region Controllers Configuration
 builder.Services.AddControllers();
-#endregion
 
 var app = builder.Build();
 
-// Configuración del pipeline HTTP
-#region HTTP Pipeline Configuration
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
@@ -151,11 +125,10 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
-app.UseCors("CorsPolicy");
+app.UseCors();
 app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
 
 app.Run();
-#endregion

@@ -1,8 +1,16 @@
 ﻿@using MudBlazor
 @inherits LayoutComponentBase
 
+<MudThemeProvider/>
+
+
 <MudLayout>
-    <MudDrawer Open="true" Variant="DrawerVariant.Persistent">
+    <MudAppBar>
+        <MudIconButton Color="Color.Secondary" Icon="@Icons.Material.Filled.Menu"
+                   OnClick="_ => IsDrawerOpen = !IsDrawerOpen"
+                   Variant="Variant.Filled" />
+    </MudAppBar>
+    <MudDrawer ClipMode="DrawerClipMode.Always" Variant="DrawerVariant.Persistent" @bind-Open="IsDrawerOpen">
         <MudNavMenu>
             <MudNavLink Href="/login" Icon="@Icons.Material.Filled.Login">Login</MudNavLink>
             <MudNavLink Href="/" Icon="@Icons.Material.Filled.Home">Médicos</MudNavLink>
@@ -14,3 +22,8 @@
         @Body
     </MudMainContent>
 </MudLayout>
+
+@code
+{
+    bool IsDrawerOpen;
+}
